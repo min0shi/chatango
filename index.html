@@ -1,79 +1,291 @@
 <!DOCTYPE html>
 <html>
+	<head>
+		<link href='//fonts.googleapis.com/css?family=Lora' rel='stylesheet' type='text/css'>
+		<link href='//fonts.googleapis.com/css?family=Delius+Swash+Caps' rel='stylesheet' type='text/css'>
+		<script src="jquery-1.11.0.min.js"></script>
+	</head>
+	<body>
+		<style>
+			body,h1,h2,p,div{
+				font-family: 'Lora', serif !important;
+			}
+			#left_container, #fpix_wrapper table, #buyers_ad,#asltable,#show_chat_btn,.fpix_header, #left_container,.fpix_asl_table,.profile_text{
+				display: none;
+			}
+			#custom{
+				font-family: 'Lora', serif !important;
+				display: block;
+				position: absolute;
+				left:0;
+				right:0;
+				width: 100%;
+				height: 100%;
+				margin: 0 auto;
+			}
+			#header{
+				font-size:32px;
+				text-align: center;
+				margin-top: 5px;
+				margin-bottom: 10px;
+			}
+			.menu, .genres{
+				width:380px;
+				margin: 0 auto;
+				background:#dedede;
+				border-top:1px solid #ccc;
+				border-bottom:1px solid #ccc;
+				line-height: 0;
+			}
+			.menu{
+				margin: 10 auto;
+			}
+			.genres{
+				margin: 0 auto;
+				background:#fafafa;
+				display:none;
+			}
+			.menu p, .genres p{
+				text-align: center;
+				display: inline-block;
+				width: 70px;
+				padding-right: 10px;
+				padding-left: 10px;
+				color: #333;
+				cursor: pointer;
+				height: 1em;
+				margin: 0;
+				margin-top: 1em;
+			}
+			#content{
+				background: #fdfdfd;
+				width: 360px;
+				margin: 10 auto;
+				padding: 10px;
+				height: 400px;
+			}
+			#content a{
+				display: block;
+				padding: 2px;
+				margin: 0px;
+				text-decoration:none;
+				color: black;
+			}
+			#subhead{
+				width: 350px;
+				border-bottom: 1px solid #ccc;
+				margin: 15 auto;
+				margin-bottom: 25px;
+				text-align: center;
+				color: #888;
+			}
+			#subhead abbr{
+				background: #fff;
+				position: relative;
+				top:8px;
+				padding: 8px;
+				font-family: 'Delius Swash Caps', cursive;
+				font-size: 12pt;
+			}
+			.music{
+				width: 200px;
+				margin: 15 auto;
+			}
+			hr{
+				margin:15 auto;
+				color:#ccc;
+			}
+			#copyright{
+				width: 200px;
+				font-size: 8pt;
+				text-align: center;
+				margin:15 auto;
+				color:#000;
+			}
+		</style>
+		<script>
+			var type_id="";
+			window.type_id= type_id;
 
-  <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="description" content="Chatango : ">
+			var catpad = 20;
+			var categories = [
+				{"id":"kdrama", "name":"KDramas", "color":"red"},
+				{"id":"jdrama", "name":"JDramas", "color":"#3f9fff"},
+				{"id":"kmovie", "name":"KMovies", "color":"#0f0"},
+				{"id":"jmovie", "name":"JMovies", "color":"#ff0"},
+				{"id":"otherdrama", "name":"Other Drama", "color":"#fc0"}
+			];
 
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+			var genpad = 20;
+			var genrelist = [
+				{"id":"comedy","name":"Comedy", "color":"red"},
+				{"id":"drama","name":"Drama", "color":"#3f9fff"},
+				{"id":"romance","name":"Romance", "color":"#0f0"},
+				{"id":"crime","name":"Crime", "color":"#ff0"}
+			];
 
-    <title>Chatango</title>
-  </head>
+			var list = {"kdrama": [
+					{"title": "Roommate", "url": "http://www.drama.net/roommate", "genre": "comedy"},
+					{"title": "Running Man", "url": "http://www.drama.net/running-man", "genre": "comedy"},
+					{"title": "Korea Secret Agency", "url": "http://www.drama.net/korea-secret-agency", "genre": "comedy"},
+					{"title": "Dating Agency Cyrano", "url": "http://www.drama.net/dating-agency-cyrano", "genre": "comedy"},
+					{"title": "Super Rookie", "url": "http://www.drama.net/super-rookie", "genre": "comedy"},
+					{"title": "Marriage, Not Dating", "url": "http://www.drama.net/marriage-not-dating", "genre": "comedy"},
+					{"title": "Brain", "url": "http://www.drama.net/brain", "genre": "drama"},
+					{"title": "Capital Scandal", "url": "http://www.drama.net/capital-scandal", "genre": "drama"},
+					{"title": "Hotel King", "url": "http://www.drama.net/hotel-king", "genre": "drama"},
+					{"title": "Que Sera Sera", "url": "http://www.drama.net/que-sera-sera", "genre": "romance"},
+					{"title": "Taereung National Village", "url": "http://www.drama.net/taereung-national-village", "genre": "romance"},
+					{"title": "Air City", "url": "http://www.drama.net/air-city", "genre": "romance"},
+					{"title": "Alone In Love", "url": "http://www.drama.net/alone-in-love", "genre": "romance"},
+					{"title": "9 End 2 Outs", "url": "http://www.drama.net/9-end-2-outs", "genre": "romance"},
+					{"title": "Hyena", "url": "http://www.drama.net/hyena", "genre": "romance"},
+					{"title": "I am Sam", "url": "http://www.drama.net/i-am-sam", "genre": "romance"},
+					{"title": "Me Too, Flower!", "url": "http://www.drama.net/me-too-flower", "genre": "romance"},
+					{"title": "TEN", "url": "http://www.drama.net/special-affairs-team-ten", "genre": "crime"},
+					{"title": "TEN2", "url": "http://www.drama.net/special-affairs-team-ten-2", "genre": "crime"},
+					{"title": "Athena", "url": "http://www.drama.net/athena", "genre": "crime"},
+					{"title": "IRIS", "url": "http://www.drama.net/iris", "genre": "crime"},
+					{"title": "City Hunter", "url": "http://www.drama.net/city-hunter", "genre": "crime"}
+				],
+					"jdrama": [
+					{"title": "Trick", "url": "http://www.drama.net/trick", "genre": "comedy"},
+					{"title": "Trick2", "url": "http://www.drama.net/trick-1", "genre": "comedy"},
+					{"title": "Trick3", "url": "http://www.drama.net/trick-2", "genre": "comedy"},
+					{"title": "Kekkon Dekinai Otoko", "url": "http://www.drama.net/kekkon-dekinai-otoko", "genre": "comedy"},
+					{"title": "Hero (2011)", "url": "http://www.drama.net/hero-japan", "genre": "drama"},
+					{"title": "Good Luck", "url": "http://www.drama.net/good-luck", "genre": "drama"},
+					{"title": "Musashi", "url": "http://www.drama.net/musashi", "genre": "drama"},
+					{"title": "Long Vacation", "url": "http://www.drama.net/long-vacation", "genre": "romance"},
+					{"title": "Love Generation", "url": "http://www.drama.net/love-generation", "genre": "romance"},
+					{"title": "Galelio", "url": "http://www.drama.net/galileo", "genre": "crime"},
+					{"title": "Galelio2", "url": "http://www.drama.net/galileo-2", "genre": "crime"},
+					{"title": "Mr. Brain", "url": "http://www.drama.net/mr-brain", "genre": "crime"}
+				],
+					"kmovie": [
+					{"title": "See You After School", "url": "http://www.drama.net/see-you-after-school", "genre": "comedy"},
+					{"title": "Bad Couple (2010)", "url": "http://www.drama.net/bad-couple-2010", "genre": "comedy"},
+					{"title": "Baby and Me", "url": "http://www.drama.net/baby-and-me", "genre": "comedy"},
+					{"title": "Marrying the Mafia 2", "url": "http://www.drama.net/marrying-the-mafia-2", "genre": "comedy"},
+					{"title": "My Boss My Hero", "url": "http://www.drama.net/my-boss-my-hero-movie", "genre": "comedy"},
+					{"title": "My Girlfriend Is An Agent", "url": "http://www.drama.net/my-girlfriend-is-an-agent", "genre": "comedy"},
+					{"title": "My Wife Is A Gangster", "url": "http://www.drama.net/my-wife-is-a-gangster", "genre": "comedy"},
+					{"title": "Sex Is Zero", "url": "http://www.drama.net/sex-is-zero", "genre": "comedy"},
+					{"title": "The Art Of Seduction", "url": "http://www.drama.net/the-art-of-seduction", "genre": "comedy"},
+					{"title": "Hot Young Bloods (2013)", "url": "http://www.drama.net/hot-young-bloods-2013", "genre": "romance"},
+					{"title": "Changing Partners", "url": "http://www.drama.net/changing-partners", "genre": "romance"},
+					{"title": "Once in a Summer", "url": "http://www.drama.net/once-in-a-summer", "genre": "romance"},
+					{"title": "A Bittersweet Life", "url": "http://www.drama.net/a-bittersweet-life", "genre": "crime"},
+					{"title": "Old Boy", "url": "http://www.drama.net/old-boy", "genre": "crime"},
+					{"title": "Going by the Book", "url": "http://www.drama.net/going-by-the-book", "genre": "crime"}
+				],
+					"jmovie": [
+					{"title": "GTO (1999)", "url": "http://www.drama.net/great-teacher-onizuka-live-action", "genre": "comedy"},
+					{"title": "Rurouni Kenshin (2012)", "url": "http://www.drama.net/rurouni-kenshin", "genre": "drama"},
+					{"title": "Brain Man", "url": "http://www.drama.net", "genre": "crime"}
+				]
+			};
+			$(window).load(function() {
+				$('#content').html($('#place_content').html());
+				$('.menu').html("");
+				$('.genres').html("");
+				var str = "";
+				categories.forEach(function(obj){str+="<p id='"+obj.id+"' class='menuitem'>"+obj.name+"</p>";});
+				$('.menu').html(str);
+				var tot = 0;
+				$('.menu p').each(function(){
+					$(this).css('width','auto');
+					$(this).css('padding','0 '+catpad/2+'px 0 '+catpad/2+'px');
+					tot+=parseInt($(this).css('width').split('px'))+catpad;
+				});
+				$('.menu').css('width',tot+'px');
 
-  <body>
+				str="";
+				genrelist.forEach(function(obj){str+="<p id='"+obj.id+"' class='genresitem'>"+obj.name+"</p>";});
+				$('.genres').html(str);
+				$('.genres').toggle();
+				tot = 0;
+				$('.genresitem').each(function(){
+					$(this).css('width','auto');
+					$(this).css('padding','0 '+genpad/2+'px 0 '+genpad/2+'px');
+					tot+=parseInt($(this).css('width').split('px'))+genpad;
+				});
+				$('.genres').css('width',tot+'px');
+				$('.genres').toggle();
 
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/min0shi/chatango">View on GitHub</a>
 
-          <h1 id="project_title">Chatango</h1>
-          <h2 id="project_tagline"></h2>
+				/*menu clicked*/
+				$('.menuitem').click(function(){
+					$('#content').html($('#place_content').html());
+					$('.menuitem').each(function() {
+						$(this).css('borderBottom','');
+					});
+					$('.genresitem').each(function() {
+						$(this).css('borderBottom','');
+					});
 
-            <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/min0shi/chatango/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/min0shi/chatango/tarball/master">Download this project as a tar.gz file</a>
-            </section>
-        </header>
-    </div>
+					var col = "";
+					for (var i = 0; i < categories.length; i++) {
+						if (categories[i]["id"] == $(this).attr("id")) {
+							col = categories[i]["color"];
+						}
+					}
+					$(this).css('borderBottom','2px solid '+col);
 
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
-        <h3>
-<a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
+					if(type_id==$(this).attr("id")||$('.genres').is(":hidden")){
+						$('.genres').toggle();
+					}
+					if($('.genres').is(":visible")){
+						$('.genres').css('borderTop','2px solid '+col);
+					}
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+					type_id=$(this).attr("id");
+				});
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
-</code></pre>
+				/*genre clicked*/
+				$('.genresitem').click(function(){
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+					$('.genresitem').each(function() {
+						$(this).css('borderBottom','');
+					});
 
-<h3>
-<a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
+					var col = "";
+					for (var i = 0; i < genrelist.length; i++) {
+						if (genrelist[i]["id"] == $(this).attr("id")) {
+							col = genrelist[i]["color"];
+						}
+					}
+					$(this).css('borderBottom','2px solid '+col);
 
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
+					var txt = "";
+					var id = $(this).attr('id');
+					list[type_id].forEach(function(obj){if(obj.genre==id)txt+="<a href='"+obj.url+"'>"+obj.title+"</a><br>"});
+					$('#content').html(txt);
+				});
 
-<h3>
-<a name="rather-drive-stick" class="anchor" href="#rather-drive-stick"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
-
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
-
-<h3>
-<a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
-
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
-
-<h3>
-<a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
-
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
-      </section>
-    </div>
-
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p class="copyright">Chatango maintained by <a href="https://github.com/min0shi">min0shi</a></p>
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
-      </footer>
-    </div>
-
-    
-
-  </body>
+			});
+		</script>
+		<div id="custom">
+			<p id="header">WELCOME</p>
+			<div id="subhead">
+				<abbr>Recommended by Min0shi</abbr>
+			</div>
+			<div class="menu"></div>
+			<div class="genres" style="border-top:1px solid #ccc;"></div>
+			<div id="content"></div>
+			<div id="place_content" style="display:none;">
+				<div style="font-size:10pt; background: none; background-color:rgba(0, 0, 0, 0);">
+					Click on the categories above to see my recommendation for Dramas and Movies.
+				</div>
+			</div>
+			<hr width="340px" align="center">
+			<div id="copyright">
+				Copyright &copy; 2014 Min0shi
+			</div>
+			<hr width="340px" align="center">
+			<div class="music">
+				<embed src="//www.sheepproductions.com/billy/billy.swf?autoplay=false&f0=http://ww8.mp3juices.com/download/6-10v4/p22/219481593/9d51346407651c/exo---growl-(korean-ver.).mp3&t0=EXO - Growl&total=1" quality="high" wmode="transparent" width="200" height="10" name="billy" align="middle" type="application/x-shockwave-flash" />
+			</div>
+		</div>
+	</body>
 </html>

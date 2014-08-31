@@ -203,7 +203,7 @@
 				str="";
 				genrelist.forEach(function(obj){str+="<p id='"+obj.id+"' class='genresitem'>"+obj.name+"</p>";});
 				$('.genres').html(str);
-				$('.genres').slideToggle( "slow" );
+				$('.genres').toggle();
 				tot = 0;
 				$('.genresitem').each(function(){
 					$(this).css('width','auto');
@@ -211,7 +211,7 @@
 					tot+=parseInt($(this).css('width').split('px'))+genpad;
 				});
 				$('.genres').css('width',tot+'px');
-				$('.genres').slideToggle( "slow" );
+				$('.genres').toggle();
 
 
 				/*menu clicked*/
@@ -233,7 +233,7 @@
 					$(this).css('borderBottom','2px solid '+col);
 
 					if(type_id==$(this).attr("id")||$('.genres').is(":hidden")){
-						$('.genres').toggle();
+						$('.genres').slideToggle( "slow" );
 					}
 					if($('.genres').is(":visible")){
 						$('.genres').css('borderTop','2px solid '+col);

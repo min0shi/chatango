@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html>
 	<head>
+        <meta charset="UTF-8">
 		<link href='//fonts.googleapis.com/css?family=Lora' rel='stylesheet' type='text/css'>
 		<link href='//fonts.googleapis.com/css?family=Delius+Swash+Caps' rel='stylesheet' type='text/css'>
 		<link href='styles/styles.css' rel='stylesheet' type='text/css'>
 		<script src="javascripts/jquery-1.11.0.min.js"></script>
-	</head>
-	<body>
-		<script>
+        <script>
 			var type_id="";
 			window.type_id= type_id;
 
@@ -28,7 +27,8 @@
 				{"id":"crime","name":"Crime", "color":"#ff0"}
 			];
 
-			var list = {"kdrama": [
+			var list = {
+                "kdrama": [
 					{"title": "Roommate", "url": "http://www.drama.net/roommate", "genre": "comedy"},
 					{"title": "Running Man", "url": "http://www.drama.net/running-man", "genre": "comedy"},
 					{"title": "Korea Secret Agency", "url": "http://www.drama.net/korea-secret-agency", "genre": "comedy"},
@@ -89,86 +89,10 @@
 					{"title": "Brain Man", "url": "http://www.drama.net", "genre": "crime"}
 				]
 			};
-			$(window).load(function() {
-				$('#content').html($('#place_content').html());
-				$('.menu').html("");
-				$('.genres').html("");
-				var str = "";
-				categories.forEach(function(obj){str+="<p id='"+obj.id+"' class='menuitem'>"+obj.name+"</p>";});
-				$('.menu').html(str);
-				var tot = 0;
-				$('.menu p').each(function(){
-					$(this).css('width','auto');
-					$(this).css('padding','0 '+catpad/2+'px 0 '+catpad/2+'px');
-					tot+=parseInt($(this).css('width').split('px'))+catpad;
-				});
-				$('.menu').css('width',tot+'px');
-
-				str="";
-				genrelist.forEach(function(obj){str+="<p id='"+obj.id+"' class='genresitem'>"+obj.name+"</p>";});
-				$('.genres').html(str);
-				$('.genres').toggle();
-				tot = 0;
-				$('.genresitem').each(function(){
-					$(this).css('width','auto');
-					$(this).css('padding','0 '+genpad/2+'px 0 '+genpad/2+'px');
-					tot+=parseInt($(this).css('width').split('px'))+genpad;
-				});
-				$('.genres').css('width',tot+'px');
-				$('.genres').toggle();
-
-
-				/*menu clicked*/
-				$('.menuitem').click(function(){
-					$('#content').html($('#place_content').html());
-					$('.menuitem').each(function() {
-						$(this).css('borderBottom','');
-					});
-					$('.genresitem').each(function() {
-						$(this).css('borderBottom','');
-					});
-
-					var col = "";
-					for (var i = 0; i < categories.length; i++) {
-						if (categories[i]["id"] == $(this).attr("id")) {
-							col = categories[i]["color"];
-						}
-					}
-					$(this).css('borderBottom','2px solid '+col);
-
-					if(type_id==$(this).attr("id")||$('.genres').is(":hidden")){
-						$('.genres').slideToggle( "slow" );
-					}
-					if($('.genres').is(":visible")){
-						$('.genres').css('borderTop','2px solid '+col);
-					}
-
-					type_id=$(this).attr("id");
-				});
-
-				/*genre clicked*/
-				$('.genresitem').click(function(){
-
-					$('.genresitem').each(function() {
-						$(this).css('borderBottom','');
-					});
-
-					var col = "";
-					for (var i = 0; i < genrelist.length; i++) {
-						if (genrelist[i]["id"] == $(this).attr("id")) {
-							col = genrelist[i]["color"];
-						}
-					}
-					$(this).css('borderBottom','2px solid '+col);
-
-					var txt = "";
-					var id = $(this).attr('id');
-					list[type_id].forEach(function(obj){if(obj.genre==id)txt+="<a href='"+obj.url+"'>"+obj.title+"</a><br>"});
-					$('#content').html(txt);
-				});
-
-			});
 		</script>
+        <script src="javascripts/pagefunctions.js"></script>
+	</head>
+	<body>
 		<div id="custom">
 			<p id="header">WELCOME</p>
 			<div id="subhead">

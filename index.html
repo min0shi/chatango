@@ -203,7 +203,7 @@
 				str="";
 				genrelist.forEach(function(obj){str+="<p id='"+obj.id+"' class='genresitem'>"+obj.name+"</p>";});
 				$('.genres').html(str);
-				$('.genres').toggle();
+				$('.genres').slideToggle( "slow" );
 				tot = 0;
 				$('.genresitem').each(function(){
 					$(this).css('width','auto');
@@ -211,7 +211,7 @@
 					tot+=parseInt($(this).css('width').split('px'))+genpad;
 				});
 				$('.genres').css('width',tot+'px');
-				$('.genres').toggle();
+				$('.genres').slideToggle( "slow" );
 
 
 				/*menu clicked*/

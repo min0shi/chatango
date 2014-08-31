@@ -56,7 +56,7 @@ body,h1,h2,p,div{
 	height: 400px;
 }
 #content a{
-	display: block;
+	display: none;
 	padding: 2px;
 	margin: 0px;
 	text-decoration:none;
